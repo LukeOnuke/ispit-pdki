@@ -4,82 +4,73 @@ import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+  <div class="d-flex pdki-container">
+    <nav class="pdki-navigation d-flex ">
+      <RouterLink to="/" class="pdki-nav-link"><i class="fa-solid fa-house fa-2xl"></i></RouterLink>
+      <RouterLink to="/cart" class="pdki-nav-link"><i class="fa-solid fa-cart-shopping fa-2xl"></i></RouterLink>
+      <RouterLink to="/user" class="pdki-nav-link"><i class="fa-solid fa-circle-user fa-2xl"></i></RouterLink>
+    </nav>
+    <div class="pdki-page">
+      <RouterView></RouterView>
     </div>
-  </header>
-
-  <RouterView />
+  </div>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
+/* Horisontal navbar */
+.pdki-navigation {
+  background-color: green;
+  height: 3rem;
   width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
+  flex-direction: row;
+  position: sticky;
+  bottom: 0;
+  align-items: center;
+  justify-content: center;
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
+.pdki-container {
+  flex-direction: column-reverse;
 }
 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
+.pdki-page {
+  max-width: unset;
+  padding: 1rem;
 }
 
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
+.pdki-nav-link {
+  padding: 0.2rem;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
 }
 
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+@media (min-width: 75rem) {
+  /* Vertical navbar */
+  .pdki-navigation {
+    background-color: red;
+    height: 100vh;
+    width: 3rem;
+    flex-direction: column;
+    bottom: unset;
+    top: 0;
+    justify-content: unset;
   }
 
-  .logo {
-    margin: 0 2rem 0 0;
+  .pdki-container {
+    flex-direction: row;
   }
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
+  .pdki-page {
+    max-width: calc(100vh - 3rem);
   }
 
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
+  .pdki-nav-link {
+    padding: 0.2rem;
+    height: 3rem;
+    width: 100%;
   }
 }
 </style>
