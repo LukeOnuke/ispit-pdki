@@ -4,52 +4,20 @@ import TheWelcome from '../components/TheWelcome.vue'
 
 <template>
   <main>
-    <h1>Loreum</h1>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, nam. Praesentium consequatur tempora, doloremque aperiam reiciendis quaerat voluptates sint itaque minus accusantium aliquam veniam blanditiis illo fugit. Tenetur, iure cupiditate!
-    </p>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, nam. Praesentium consequatur tempora, doloremque aperiam reiciendis quaerat voluptates sint itaque minus accusantium aliquam veniam blanditiis illo fugit. Tenetur, iure cupiditate!
-    </p>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, nam. Praesentium consequatur tempora, doloremque aperiam reiciendis quaerat voluptates sint itaque minus accusantium aliquam veniam blanditiis illo fugit. Tenetur, iure cupiditate!
-    </p>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, nam. Praesentium consequatur tempora, doloremque aperiam reiciendis quaerat voluptates sint itaque minus accusantium aliquam veniam blanditiis illo fugit. Tenetur, iure cupiditate!
-    </p>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, nam. Praesentium consequatur tempora, doloremque aperiam reiciendis quaerat voluptates sint itaque minus accusantium aliquam veniam blanditiis illo fugit. Tenetur, iure cupiditate!
-    </p>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, nam. Praesentium consequatur tempora, doloremque aperiam reiciendis quaerat voluptates sint itaque minus accusantium aliquam veniam blanditiis illo fugit. Tenetur, iure cupiditate!
-    </p>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, nam. Praesentium consequatur tempora, doloremque aperiam reiciendis quaerat voluptates sint itaque minus accusantium aliquam veniam blanditiis illo fugit. Tenetur, iure cupiditate!
-    </p>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, nam. Praesentium consequatur tempora, doloremque aperiam reiciendis quaerat voluptates sint itaque minus accusantium aliquam veniam blanditiis illo fugit. Tenetur, iure cupiditate!
-    </p>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, nam. Praesentium consequatur tempora, doloremque aperiam reiciendis quaerat voluptates sint itaque minus accusantium aliquam veniam blanditiis illo fugit. Tenetur, iure cupiditate!
-    </p>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, nam. Praesentium consequatur tempora, doloremque aperiam reiciendis quaerat voluptates sint itaque minus accusantium aliquam veniam blanditiis illo fugit. Tenetur, iure cupiditate!
-    </p>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, nam. Praesentium consequatur tempora, doloremque aperiam reiciendis quaerat voluptates sint itaque minus accusantium aliquam veniam blanditiis illo fugit. Tenetur, iure cupiditate!
-    </p>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, nam. Praesentium consequatur tempora, doloremque aperiam reiciendis quaerat voluptates sint itaque minus accusantium aliquam veniam blanditiis illo fugit. Tenetur, iure cupiditate!
-    </p>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, nam. Praesentium consequatur tempora, doloremque aperiam reiciendis quaerat voluptates sint itaque minus accusantium aliquam veniam blanditiis illo fugit. Tenetur, iure cupiditate!
-    </p>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, nam. Praesentium consequatur tempora, doloremque aperiam reiciendis quaerat voluptates sint itaque minus accusantium aliquam veniam blanditiis illo fugit. Tenetur, iure cupiditate!
-    </p>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, nam. Praesentium consequatur tempora, doloremque aperiam reiciendis quaerat voluptates sint itaque minus accusantium aliquam veniam blanditiis illo fugit. Tenetur, iure cupiditate!
-    </p>
-    <hr>
+    <h1>Онлајн тржница</h1>
+    <div class="d-flex container">
+      <div class="card" style="width: 18rem;">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s
+            content.</p>
+        </div>
+        <div class="card-footer">
+          <a href="#" class="btn btn-primary">Додај у корпу</a>
+          <a href="#" class="btn btn-primary">Детаљи</a>
+        </div>
+      </div>
+    </div>
   </main>
 </template>
