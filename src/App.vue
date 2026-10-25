@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import { Suspense } from 'vue';
 import HelloWorld from './components/HelloWorld.vue'
 </script>
 
@@ -11,7 +12,9 @@ import HelloWorld from './components/HelloWorld.vue'
       <RouterLink to="/user" class="pdki-nav-link"><i class="fa-solid fa-circle-user fa-2xl"></i></RouterLink>
     </nav>
     <div class="pdki-page">
-      <RouterView></RouterView>
+      <Suspense>
+        <RouterView></RouterView>
+      </Suspense>
       <footer>
         <hr>
         <h1>Биотрејд Глобал а.д.</h1>
@@ -50,6 +53,7 @@ import HelloWorld from './components/HelloWorld.vue'
   bottom: 0;
   align-items: center;
   justify-content: center;
+  z-index: 1000;
 }
 
 .pdki-container {
@@ -88,7 +92,7 @@ import HelloWorld from './components/HelloWorld.vue'
   }
 
   .pdki-page {
-    max-width: calc(100vh - 3rem);
+    max-width: calc(100vw - 3rem);
   }
 
   .pdki-nav-link {
