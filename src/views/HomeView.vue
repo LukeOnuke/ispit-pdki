@@ -196,8 +196,9 @@ function resetFilter() {
           </div>
         </div>
         <div class="card-footer d-flex">
-          <a href="#" class="btn btn-primary ms-auto">Додај у корпу</a>
-          <a href="#" class="btn btn-primary ms-3">Детаљи</a>
+          <RouterLink :to="`/plant/${plant.id}`"></RouterLink>
+          <a href="#" class="btn btn-success ms-auto"><i class="fa-solid fa-cart-plus"></i> Dodaj u korpu</a>
+          <a href="#" class="btn btn-primary ms-3"><i class="fa-solid fa-up-right-from-square"></i> Detalji</a>
         </div>
       </div>
 
