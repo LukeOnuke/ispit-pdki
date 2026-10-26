@@ -16,7 +16,7 @@ export interface PlantModel{
     light_requirement: LightRequirement, //isto
     watering: Watering, //isto
     intended_use: IntendedUse, //isto
-    production_date: Date,
+    production_date: string,
     price: number,
     currency: string,
     image_url: string,
