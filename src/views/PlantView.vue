@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { PlantModel } from '@/models/plant.model.ts';
 import { PlantService } from '@/services/plant.service';
+import { UserService } from '@/services/user.service';
+import Rating from '@/components/Rating.vue';
 import { ref } from 'vue';
 
 const props = defineProps({
@@ -11,7 +13,19 @@ const props = defineProps({
 })
 
 const plant = ref<PlantModel>();
-plant.value = await PlantService.getPlant(props.id);
+const rating = ref<number>(0);
+
+PlantService.getIndividualPlant(props.id).then(data => {
+  plant.value = data;
+
+  const r = UserService.getRating(plant.value.id);
+  if(r) rating.value = r.ratingScore;
+});
+
+function handleRating(rating: number){
+  if(!plant.value) return;
+  UserService.addRating(plant.value.id, rating);
+}
 </script>
 
 <template>
@@ -78,7 +92,7 @@ plant.value = await PlantService.getPlant(props.id);
       </section>
     </div>
     <div class="col-12 col-lg-4">
-      <section class="card">
+      <section class="card mb-3">
         <div class="card-header">
           <h3 class="card-title">Dostupnost</h3>
         </div>
@@ -87,6 +101,17 @@ plant.value = await PlantService.getPlant(props.id);
           <p v-else class="card-text text-danger">Nema na stanju.</p>
 
           <p>Datum proizvodje: <code>{{ plant.production_date }}</code></p>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-header">
+          <h3 class="card-title">Ocena</h3>
+        </div>
+        <div class="card-body">
+          <p class="card-text">Imate mogućnost da ocenite proizvod.</p>
+          <Rating v-model="rating" @click="handleRating"></Rating>
+          <p v-if="!UserService.getRating(plant.id)" class="card-text text-body-secondary"><small>Nema ocena proizvoda</small></p>
         </div>
       </section>
     </div>

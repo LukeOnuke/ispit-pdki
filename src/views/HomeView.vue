@@ -7,6 +7,11 @@ import { Watering } from '@/models/watering.model';
 import { PlantService } from '@/services/plant.service';
 import { ref } from 'vue';
 import RangeSlider from '@/components/RangeSlider.vue'
+import Rating from '@/components/Rating.vue';
+import { UserService } from '@/services/user.service';
+import type { OrderModel } from '@/models/order.model';
+import { OrderStatus } from '@/models/order-status.model';
+import { AlertService } from '@/services/alert.service';
 
 let plants: PlantModel[];
 const plantsFiltered = ref<PlantModel[]>();
@@ -33,8 +38,8 @@ function filter() {
   searchInProgress.value = true;
 
   plantsFiltered.value = plants.filter((plant) => {
-    if(selectedPriceRange.value[0] && (plant.price < selectedPriceRange.value[0])) return false;
-    if(selectedPriceRange.value[1] && (plant.price > selectedPriceRange.value[1])) return false;
+    if (selectedPriceRange.value[0] && (plant.price < selectedPriceRange.value[0])) return false;
+    if (selectedPriceRange.value[1] && (plant.price > selectedPriceRange.value[1])) return false;
 
     if (nameSearchString.value && nameSearchString.value.length > 0) {
       if (!plant.name.toLowerCase().includes(nameSearchString.value.toLowerCase())) return false;
@@ -71,12 +76,26 @@ function resetFilter() {
   let min: number = Number.MAX_SAFE_INTEGER;
   let max: number = -1;
   plants.forEach(plant => {
-    if(plant.price > max) max = plant.price;
-    if(plant.price < min) min = plant.price;
+    if (plant.price > max) max = plant.price;
+    if (plant.price < min) min = plant.price;
   });
   globalMin.value = min;
   globalMax.value = max;
   selectedPriceRange.value = [min, max];
+}
+
+function addToCart(plant: PlantModel): void {
+  AlertService.confirm("Potvrda", "Da li ste sigurni da želite da dodate u korpu?", () => {
+    UserService.addOrder(
+      {
+        createdAt: new Date(),
+        deletedAt: undefined,
+        paidAt: undefined,
+        orderStatus: OrderStatus.RESERVED,
+        plant: plant
+      } as OrderModel
+    );
+  });
 }
 
 </script>
@@ -106,7 +125,7 @@ function resetFilter() {
           </div>
 
           <span class="text-muted">Pretraga po ceni</span>
-          <RangeSlider v-model="selectedPriceRange" :min="globalMin" :max="globalMax" @change="filter"/>
+          <RangeSlider v-model="selectedPriceRange" :min="globalMin" :max="globalMax" @change="filter" />
 
           <div class="accordion" id="accordionExample">
             <div class="accordion-item">
@@ -183,21 +202,26 @@ function resetFilter() {
           </div>
           <div class="col-md-8">
             <div class="card-body">
-              <h3 class="card-title">{{ plant.name }} <small class="text-body-secondary">{{ plant.latin_name }}</small></h3>
+              <h3 class="card-title">{{ plant.name }} <small class="text-body-secondary">{{ plant.latin_name }}</small>
+              </h3>
+              <Rating :disabled="false"></Rating>
               <div class="">
                 <span class="badge text-bg-info">{{ plant.category }}</span>
                 <span class="badge text-bg-secondary ms-1">{{ plant.intended_use }}</span>
               </div>
               <p class="card-text">{{ plant.description }}</p>
               <p class="card-text">{{ plant.care_instructions }}</p>
-              <p class="card-text"><small class="text-body-secondary">{{ plant.climate }} - {{ plant.light_requirement }}</small></p>
+              <p class="card-text"><small class="text-body-secondary">{{ plant.climate }} - {{ plant.light_requirement
+              }}</small></p>
               <p class="card-text text-end display-3">{{ plant.price }} {{ plant.currency }}</p>
             </div>
           </div>
         </div>
         <div class="card-footer d-flex">
-          <RouterLink class="btn btn-success ms-auto" :to="`/plant/${plant.id}`"><i class="fa-solid fa-cart-plus"></i> Dodaj u korpu</RouterLink>
-          <RouterLink class="btn btn-primary ms-3" :to="`/plant/${plant.id}`"><i class="fa-solid fa-up-right-from-square"></i> Detalji</RouterLink>
+          <button class="btn btn-success ms-auto" @click="addToCart(plant)"><i class="fa-solid fa-cart-plus"></i> Dodaj
+            u korpu</button>
+          <RouterLink class="btn btn-primary ms-3" :to="`/plant/${plant.id}`"><i
+              class="fa-solid fa-up-right-from-square"></i> Detalji</RouterLink>
         </div>
       </div>
 

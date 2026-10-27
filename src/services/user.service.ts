@@ -1,4 +1,5 @@
 import type { OrderModel } from "@/models/order.model"
+import type { RatingModel } from "@/models/rating.model"
 import type { UserModel } from "@/models/user.model"
 
 const USERS_KEY = 'pki_2026_users'
@@ -12,8 +13,8 @@ export class UserService {
                 {
                     email: 'user@example.com',
                     password: 'user123',
-                    destination: 'Zagreb',
-                    orders: []
+                    orders: [],
+                    ratings: []
                 }
             ]))
         }
@@ -115,7 +116,7 @@ export class UserService {
         }
     }
 
-    static createUser(email: string, password: string, destination: string) {
+    static createUser(email: string, password: string, address: string, tel: string) {
         const users = this.getUsers()
 
         for (let user of users) {
@@ -129,10 +130,58 @@ export class UserService {
         }
 
         users.push({
-            email, password, destination, orders: []
-        })
+            email, password, orders: [], ratings: [], favouriteSpecies: [], address: address, tel: tel
+        } as UserModel)
 
         localStorage.setItem(USERS_KEY, JSON.stringify(users))
-        return null
+        return undefined
+    }
+
+    static addRating(plantId: number, rating: number) {
+        const activeUser = this.getActiveUser()
+        const users = this.getUsers()
+
+        if (activeUser) {
+            for (let user of users) {
+                if (user.email === activeUser.email) {
+                    user.ratings.push({
+                        plantId: plantId,
+                        ratingScore: rating
+                    } as RatingModel)
+                }
+            }
+
+            localStorage.setItem(USERS_KEY, JSON.stringify(users))
+        }
+    }
+
+    static removeRating(plantId: number) {
+        const activeUser = this.getActiveUser()
+        const users = this.getUsers()
+
+        if (activeUser) {
+            for (let user of users) {
+                if (user.email === activeUser.email) {
+                    for(let rating of user.ratings){
+                        if(rating.plantId === plantId){
+                            rating.deletedAt = new Date()
+                        }
+                    }
+                }
+            }
+
+            localStorage.setItem(USERS_KEY, JSON.stringify(users))
+        }
+    }
+
+    static getRating(plantId: number): RatingModel | undefined{
+        const activeUser = this.getActiveUser();
+        if(!activeUser) return;
+        const ratings = activeUser.ratings;
+        for(let rating of ratings){
+            if(!rating.deletedAt) continue;
+            if(rating.plantId === plantId) return rating;
+        }
+        return undefined;
     }
 }

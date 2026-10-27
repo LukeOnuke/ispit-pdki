@@ -2,6 +2,7 @@
 import { RouterLink, RouterView } from 'vue-router'
 import { Suspense } from 'vue';
 import HelloWorld from './components/HelloWorld.vue'
+import { UserService } from './services/user.service.ts';
 </script>
 
 <template>
@@ -9,7 +10,7 @@ import HelloWorld from './components/HelloWorld.vue'
     <nav class="pdki-navigation d-flex ">
       <RouterLink to="/" class="pdki-nav-link"><i class="fa-solid fa-house fa-2xl"></i></RouterLink>
       <RouterLink to="/cart" class="pdki-nav-link"><i class="fa-solid fa-cart-shopping fa-2xl"></i></RouterLink>
-      <RouterLink to="/user" class="pdki-nav-link"><i class="fa-solid fa-circle-user fa-2xl"></i></RouterLink>
+      <RouterLink to="/user" :class="['pdki-nav-link', UserService.getActiveUser() ? '' : 'pdki-disabled']"><i class="fa-solid fa-circle-user fa-2xl"></i></RouterLink>
     </nav>
     <div class="pdki-page">
       <Suspense>
@@ -73,6 +74,11 @@ import HelloWorld from './components/HelloWorld.vue'
   align-items: center;
   text-decoration: none;
   color: var(--bs-primary-text-emphasis)
+}
+
+.pdki-nav-link.pdki-disabled{
+  opacity: var(--bs-btn-disabled-opacity);
+  color: var(--bs-btn-disabled-color);
 }
 
 @media (min-width: 75rem) {
