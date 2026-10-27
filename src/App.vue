@@ -18,25 +18,18 @@ import { UserService } from './services/user.service.ts';
       </Suspense>
       <footer>
         <hr>
-        <h1>Биотрејд Глобал а.д.</h1>
-        <p>Добродошли у Биотрејд Глобал а.д., водеће име у свету хортикултуре и
-          цветања које већ годинама улепшава урбане пејзаже наше престонице. Као
-          компанија која управља пажљиво одабраним ланцем модерних цвећара и
-          специјализованих расадника широм Београда, поносимо се тиме што спајамо
-          врхунски квалитет биљака са страстом према природи. Наша мисија је да сваки дом
-          , пословни простор или зелени кутак обогатимо животним духом, стварајући оазе
-          мира и природне лепоте усред градске вреве.</p>
-        <p>
-          Кроз предани рад стручних агронома, флориста и пејзажних архитекта, Биотрејд
-          Глобал а.д. пружа свеобухватну понуду - од јединствених цвећарских аранжмана
-          за све прилике до здравих, отпорних садница спремних за ваше баште и терасе.
-          Посвећени смо одрживом пословању, врхунској услузи и едукацији наших клијената,
-          због чега смо постали синоним за поузданост и врхунски естетски израз у целој Србији.
-        </p>
+        <h1>Biotrejd Global a.d.</h1>
+        <p>Dobrodošli u Biotrejd Global a.d., vodeće ime u svetu hortikulture i
+          cvetanja koje već godinama ulepšava urbane pejzaže naše prestonice. Kao
+          kompanija koja upravlja pažljivo odabranim lancem modernih cvećara i
+          specijalizovanih rasadnika širom Beograda, ponosimo se time što spajamo
+          vrhunski kvalitet biljaka sa strastom prema prirodi. Naša misija je da svaki dom
+          , poslovni prostor ili zeleni kutak obogatimo životnim duhom, stvarajući oaze
+          mira i prirodne lepote usred gradske vreve.</p>
         <ul>
-          <li>ПИБ: 123456789</li>
-          <li>ПИБ: 12345678</li>
-          <li>Фиксни: 011 486 11</li>
+          <li>PIB: 123456789</li>
+          <li>MB: 12345678</li>
+          <li>Fiksni: 011 486 11</li>
         </ul>
       </footer>
     </div>
@@ -50,7 +43,8 @@ import { UserService } from './services/user.service.ts';
   height: 3rem;
   width: 100%;
   flex-direction: row;
-  position: sticky;
+  position: fixed;
+  top: unset;
   bottom: 0;
   align-items: center;
   justify-content: center;
@@ -59,6 +53,7 @@ import { UserService } from './services/user.service.ts';
 
 .pdki-container {
   flex-direction: column-reverse;
+  padding-bottom: 3rem;
 }
 
 .pdki-page {
@@ -73,12 +68,24 @@ import { UserService } from './services/user.service.ts';
   justify-content: center;
   align-items: center;
   text-decoration: none;
-  color: var(--bs-primary-text-emphasis)
+  color: var(--bs-success)
+}
+
+.pdki-nav-link:hover{
+  filter: opacity(80%)
+}
+
+.pdki-nav-link:active{
+  filter: opacity(90%)
 }
 
 .pdki-nav-link.pdki-disabled{
   opacity: var(--bs-btn-disabled-opacity);
   color: var(--bs-btn-disabled-color);
+}
+
+.pdki-nav-link.router-link-exact-active{
+  color: var(--bs-success-text-emphasis)
 }
 
 @media (min-width: 75rem) {
@@ -91,10 +98,12 @@ import { UserService } from './services/user.service.ts';
     bottom: unset;
     top: 0;
     justify-content: unset;
+    position: sticky;
   }
 
   .pdki-container {
     flex-direction: row;
+    padding-bottom: unset;
   }
 
   .pdki-page {

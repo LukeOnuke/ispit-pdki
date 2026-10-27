@@ -109,8 +109,7 @@ function handleRating(rating: number){
           <h3 class="card-title">Ocena</h3>
         </div>
         <div class="card-body">
-          <p class="card-text">Imate mogućnost da ocenite proizvod.</p>
-          <Rating v-model="rating" @click="handleRating"></Rating>
+          <Rating :rating="rating" disabled></Rating>
           <p v-if="!UserService.getRating(plant.id)" class="card-text text-body-secondary"><small>Nema ocena proizvoda</small></p>
         </div>
       </section>

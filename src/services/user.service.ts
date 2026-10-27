@@ -1,3 +1,4 @@
+import { OrderStatus } from "@/models/order-status.model"
 import type { OrderModel } from "@/models/order.model"
 import type { RatingModel } from "@/models/rating.model"
 import type { UserModel } from "@/models/user.model"
@@ -35,14 +36,14 @@ export class UserService {
         return false
     }
 
-    static getActiveUser(): UserModel | null {
+    static getActiveUser(): UserModel | undefined {
         for (let user of this.getUsers()) {
             if (user.email == localStorage.getItem(ACTIVE_USER_KEY)) {
                 return user
             }
         }
 
-        return null
+        return undefined
     }
 
     static logout() {
@@ -67,13 +68,16 @@ export class UserService {
     static pay() {
         const activeUser = this.getActiveUser()
         const users = this.getUsers()
-        const now = new Date().toISOString()
 
         if (activeUser) {
             for (let user of users) {
                 if (user.email === activeUser.email) {
                     for (let order of user.orders) {
-                        order.paidAt = now
+                        if(order.paidAt) continue;
+                        if(order.orderStatus === OrderStatus.CANCELED) continue;
+                        
+                        order.paidAt = new Date()
+                        order.orderStatus = OrderStatus.ARRIVED
                     }
                 }
             }
@@ -91,7 +95,7 @@ export class UserService {
                 if (user.email === activeUser.email) {
                     for (let obj of user.orders) {
                         if (order.createdAt == obj.createdAt) {
-                            obj.deletedAt = new Date().toISOString()
+                            obj.deletedAt = new Date()
                         }
                     }
                 }
@@ -179,9 +183,23 @@ export class UserService {
         if(!activeUser) return;
         const ratings = activeUser.ratings;
         for(let rating of ratings){
-            if(!rating.deletedAt) continue;
+            if(rating.deletedAt) continue;
             if(rating.plantId === plantId) return rating;
         }
         return undefined;
+    }
+
+    static doRatingsExist(): boolean{
+        const activeUser = this.getActiveUser();
+        if(!activeUser) return false;
+        const ratings = activeUser.ratings;
+
+        let flag = false;
+
+        for(let rating of ratings){
+            if (!rating.deletedAt) flag = true;
+        }
+        
+        return ratings.length > 0 && flag;
     }
 }

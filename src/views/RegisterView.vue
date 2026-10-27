@@ -34,10 +34,6 @@ function registerUser() {
         errorMessage.value = "Telefon ne sme biti prazan."
         return
     }
-    if (/^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]{6,15}$/.test(tel.value)) {
-        errorMessage.value = "Telefonski broj mora biti validan broj."
-        return
-    }
     errorMessage.value = UserService.createUser(
         email.value,
         password.value,
@@ -95,6 +91,7 @@ function registerUser() {
                     <label for="floatingPassword">Još jednom šifra</label>
                 </div>
                 <p v-if="errorMessage" class="text-danger text-center mt-3">{{ errorMessage }}</p>
+                <p class="mt-3"><RouterLink to="/user/login"><i class="fa-solid fa-right-to-bracket"></i> Imate nalog? </RouterLink></p>
             </form>
             <div class="card-footer d-flex flex-row">
                 <RouterLink class="btn btn-danger ms-auto" to="/">Otkaži</RouterLink>

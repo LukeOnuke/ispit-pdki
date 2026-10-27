@@ -12,8 +12,11 @@ import { UserService } from '@/services/user.service';
 import type { OrderModel } from '@/models/order.model';
 import { OrderStatus } from '@/models/order-status.model';
 import { AlertService } from '@/services/alert.service';
+import { useLogin } from '@/hooks/login.hook';
 
 let plants: PlantModel[];
+const enforceLogin = useLogin()
+
 const plantsFiltered = ref<PlantModel[]>();
 const nameSearchString = ref<string>();
 const descriptionSearchString = ref<string>();
@@ -25,6 +28,7 @@ const searchInProgress = ref<boolean>(false);
 const selectedPriceRange = ref([50, 1500]);
 const globalMin = ref(0);
 const globalMax = ref(2000);
+const ratingReqirement = ref<number | undefined>(undefined);
 
 PlantService.getPlantsList().then((data) => {
   plants = data;
@@ -64,6 +68,12 @@ function filter() {
     if (lightRequirementSearchCriteria.value) {
       if (!(plant.light_requirement === lightRequirementSearchCriteria.value)) return false;
     }
+
+    if (ratingReqirement.value){
+      const rating = UserService.getRating(plant.id);
+      let r = rating?.ratingScore;
+      if (!(r === ratingReqirement.value)) return false;
+    }
     return true;
   })
 
@@ -85,17 +95,30 @@ function resetFilter() {
 }
 
 function addToCart(plant: PlantModel): void {
-  AlertService.confirm("Potvrda", "Da li ste sigurni da želite da dodate u korpu?", () => {
-    UserService.addOrder(
-      {
-        createdAt: new Date(),
-        deletedAt: undefined,
-        paidAt: undefined,
-        orderStatus: OrderStatus.RESERVED,
-        plant: plant
-      } as OrderModel
-    );
-  });
+  enforceLogin()
+
+  if (UserService.getActiveUser()) AlertService.confirm(
+    "Potvrda",
+    "Da li ste sigurni da želite da dodate u korpu?",
+    () => {
+      UserService.addOrder(
+        {
+          createdAt: new Date(),
+          deletedAt: undefined,
+          paidAt: undefined,
+          orderStatus: OrderStatus.RESERVED,
+          plant: plant
+        } as OrderModel
+      );
+    }
+  );
+}
+
+function getRating(id: number):number{
+  const rd = UserService.getRating(id);
+  if(!rd) return 0;
+  if(rd.deletedAt) return 0;
+  return rd.ratingScore;
 }
 
 </script>
@@ -171,6 +194,16 @@ function addToCart(plant: PlantModel): void {
                     </select>
                   </div>
                 </div>
+
+                <div class="accordion-body">
+                  <div class="row">
+                    <select class="form-select" aria-label="Default select example"
+                      v-model="ratingReqirement" @click="filter">
+                      <option selected :value="undefined">Pretraga po oceni</option>
+                      <option :value="r" v-for="r in [0, 1, 2, 3, 4, 5]">{{ `${r === 0 ? 'bez ocene' : `${r} zvezdica`}` }}</option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -204,7 +237,7 @@ function addToCart(plant: PlantModel): void {
             <div class="card-body">
               <h3 class="card-title">{{ plant.name }} <small class="text-body-secondary">{{ plant.latin_name }}</small>
               </h3>
-              <Rating :disabled="false"></Rating>
+              <Rating :disabled="true" :rating="getRating(plant.id)"></Rating>
               <div class="">
                 <span class="badge text-bg-info">{{ plant.category }}</span>
                 <span class="badge text-bg-secondary ms-1">{{ plant.intended_use }}</span>
@@ -212,7 +245,7 @@ function addToCart(plant: PlantModel): void {
               <p class="card-text">{{ plant.description }}</p>
               <p class="card-text">{{ plant.care_instructions }}</p>
               <p class="card-text"><small class="text-body-secondary">{{ plant.climate }} - {{ plant.light_requirement
-              }}</small></p>
+                  }}</small></p>
               <p class="card-text text-end display-3">{{ plant.price }} {{ plant.currency }}</p>
             </div>
           </div>

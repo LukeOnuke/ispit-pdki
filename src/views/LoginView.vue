@@ -57,6 +57,7 @@ function login() {
                     <label for="floatingPassword">Šifra</label>
                 </div>
                 <p v-if="errorMessage" class="text-danger text-center mt-3">{{ errorMessage }}</p>
+                <p><RouterLink to="/user/register"><i class="fa-solid fa-user-pen"></i> Nemate nalog? </RouterLink></p>
             </form>
             <div class="card-footer d-flex flex-row">
                 <RouterLink class="btn btn-danger ms-auto" to="/">Otkaži</RouterLink>

@@ -12,8 +12,7 @@ const client = axios.create({
 export class PlantService {
     static async getPlantsList() {
         const rsp = client.request<PlantModel[]>({
-            method: "GET",
-            url: ""
+            method: "GET"
         })
         return (await rsp).data;
     }
